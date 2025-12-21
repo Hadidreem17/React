@@ -5,17 +5,23 @@ import CategoryList from "./components/CategoryList";
 import ProductList from "./components/ProductList";
 import "./App.css";
 
+const normalizeCategory = (value) =>
+  value
+    .toLowerCase()
+    .replace("fake:", "")
+    .replaceAll("'", "")
+    .trim();
+
 function App() {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
-  const filteredProducts = selectedCategory
-    ? products.filter((product) =>
-        product.categories.some((cat) =>
-          selectedCategory.toLowerCase().includes(cat.toLowerCase()) ||
-          cat.toLowerCase().includes(selectedCategory.toLowerCase())
-        )
+const filteredProducts = selectedCategory
+  ? products.filter((product) =>
+      product.categories.some(
+        (cat) => normalizeCategory(cat) === normalizeCategory(selectedCategory)
       )
-    : products;
+    )
+  : products;
 
  return (
   <div className="container">
